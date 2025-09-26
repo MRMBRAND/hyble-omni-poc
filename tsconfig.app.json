@@ -22,11 +22,12 @@
 
     /* Linting */
     "strict": true,
+    "strictNullChecks": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "types": ["vite/client", "vitest/globals", "vite-plugin-svgr/client"],
+    "types": ["vite/client", "vitest/globals", "vite-plugin-svgr/client"]
   },
-  "include": ["src"],
+  "include": ["src"]
 }

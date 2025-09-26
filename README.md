@@ -16,7 +16,7 @@ When creating a new toolkit app, there are 2 main pieces - development and deplo
 
 ### Development
 
-Use Node 20.
+Use Node 22.
 
 1. Clone the repository (see notes below)
 2. Install dependencies: `npm install`
