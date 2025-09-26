@@ -12,9 +12,9 @@ stages:
   - stage: build_and_test
     displayName: "Build and test"
     jobs:
-      - template: ./pipeline/jobs/set-build-version-job.yml
-      - template: ./pipeline/jobs/build-job.yml
-      - template: ./pipeline/jobs/unit-tests-job.yml
+      - template: .pipeline/jobs/set-build-version-job.yml
+      - template: .pipeline/jobs/build-job.yml
+      - template: .pipeline/jobs/unit-tests-job.yml
 
   - stage: deploy_dev
     displayName: "Deploy to dev"
@@ -24,7 +24,7 @@ stages:
       - group: TOOLKIT-COMMON-DEV
       - group: TOOLKIT-BOILERPLATE-DEV
     jobs:
-      - template: ./pipeline/jobs/deploy-job.yml
+      - template: .pipeline/jobs/deploy-job.yml
         parameters:
           deployment_token: $(deployment.static_app_token)
           environment: "dev"
@@ -37,7 +37,7 @@ stages:
       - group: TOOLKIT-COMMON-PREPROD
       - group: TOOLKIT-BOILERPLATE-PREPROD
     jobs:
-      - template: ./pipeline/jobs/deploy-job.yml
+      - template: .pipeline/jobs/deploy-job.yml
         parameters:
           deployment_token: $(deployment.static_app_token)
           environment: "preprod"
@@ -50,7 +50,7 @@ stages:
       - group: TOOLKIT-COMMON-PROD
       - group: TOOLKIT-BOILERPLATE-PROD
     jobs:
-      - template: ./pipeline/jobs/deploy-job.yml
+      - template: .pipeline/jobs/deploy-job.yml
         parameters:
           deployment_token: $(deployment.static_app_token)
           environment: "prod"
