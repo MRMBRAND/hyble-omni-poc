@@ -1,0 +1,35 @@
+name: Update browserslist
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 2" # on every Tuesday
+
+jobs:
+  upgrade-packages:
+    name: Update browserslist
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js ⚙️
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+
+      - name: Install packages 🔀
+        run: npm install
+
+      - name: Upgrade browserslist 🔀
+        run: npx browserslist@latest --update-db
+
+      - name: Commit and create PR 🔀
+        uses: peter-evans/create-pull-request@v7
+        with:
+          title: "Update browserslist (automated)"
+          branch: "upgrade-browserslist-automated"
+          commit-message: "chore(deps): update browserslist (automated)"
+          delete-branch: true
+          token: ${{ secrets.GITHUB_TOKEN }}

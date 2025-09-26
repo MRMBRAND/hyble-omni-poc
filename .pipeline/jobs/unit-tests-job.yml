@@ -1,0 +1,30 @@
+jobs:
+  - job: unit_tests
+    displayName: "Run unit tests"
+    dependsOn: set_build_version
+    variables:
+      CI: true
+      npm_config_cache: $(Pipeline.Workspace)/.npm
+
+    steps:
+      - checkout: self
+        persistCredentials: true
+
+      - task: NodeTool@0
+        displayName: "Install Node.js"
+        inputs:
+          versionSpec: "20.x"
+
+      - task: Cache@2
+        inputs:
+          key: 'npm | "$(Agent.OS)" | package-lock.json'
+          restoreKeys: |
+            npm | "$(Agent.OS)"
+          path: $(npm_config_cache)
+        displayName: Restore cached dependencies
+
+      - script: npm install
+        displayName: "Install app dependencies"
+
+      - script: npm run ci:test:unit
+        displayName: "Run unit tests"

@@ -1,0 +1,37 @@
+jobs:
+  - deployment: deploy_${{ parameters.environment }}
+    displayName: Deploy to Static Web App
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                artifact: "app-drop"
+                patterns: "**/app.$(Build.BuildNumber).zip"
+                path: "$(Build.ArtifactStagingDirectory)"
+
+            - task: ExtractFiles@1
+              displayName: "Extract package"
+              inputs:
+                archiveFilePatterns: "$(Build.ArtifactStagingDirectory)/**/app.$(Build.BuildNumber).zip"
+                destinationFolder: "$(System.DefaultWorkingDirectory)/app"
+                cleanDestinationFolder: true
+                overwriteExistingFiles: false
+
+            # https://marketplace.visualstudio.com/items?itemName=qetza.replacetokens
+            - task: qetza.replacetokens.replacetokens-task.replacetokens@6
+              displayName: "Replace tokens for env.js"
+              inputs:
+                sources: |
+                  **/env.template.js => $(System.DefaultWorkingDirectory)/app/env.js
+
+            - task: AzureStaticWebApp@0
+              displayName: 'Deploy to static web app'
+              inputs:
+                azure_static_web_apps_api_token: ${{ parameters.deployment_token }}
+                app_location: "app"
+                output_location: ''
+                skip_app_build: true
+                skip_api_build: true

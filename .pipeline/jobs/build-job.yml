@@ -1,0 +1,57 @@
+jobs:
+  - job: build
+    displayName: Build
+    dependsOn: set_build_version
+
+    variables:
+      CI: true
+      npm_config_cache: $(Pipeline.Workspace)/.npm
+
+    steps:
+      - checkout: self
+        persistCredentials: true
+
+      - task: NodeTool@0
+        displayName: "Install Node.js"
+        inputs:
+          versionSpec: "20.x"
+
+      - task: Cache@2
+        inputs:
+          key: 'npm | "$(Agent.OS)" | package-lock.json'
+          restoreKeys: |
+            npm | "$(Agent.OS)"
+          path: $(npm_config_cache)
+        displayName: Restore cached dependencies
+
+      - script: npm install
+        displayName: "Install app dependencies"
+
+      - script: npm run build
+        displayName: "Build app bundle"
+
+      - script: |
+          echo \<\!-- version: $(Build.BuildNumber) --\> >> dist/index.html
+        displayName: "Inject BuildNumber into index.html"
+
+      - task: ArchiveFiles@2
+        displayName: "Package app bundle"
+        condition: succeeded()
+        inputs:
+          rootFolderOrFile: "$(System.DefaultWorkingDirectory)/dist"
+          includeRootFolder: false
+          archiveType: zip
+          archiveFile: "$(Build.ArtifactStagingDirectory)/app.$(Build.BuildNumber).zip"
+          replaceExistingArchive: true
+
+      - upload: "$(Build.ArtifactStagingDirectory)/app.$(Build.BuildNumber).zip"
+        condition: succeeded()
+        displayName: "Publish app bundle"
+        artifact: "app-drop"
+
+      - task: ATP.ATP-GitTag.GitTag.GitTag@6
+        displayName: "Push tag to GitHub"
+        condition: and(succeeded(), eq(variables.isBranchMain, true))
+        inputs:
+          tagEmail: "ci-azure-devops@mrmglobal.com"
+          tag: "build-$(build.buildNumber)"

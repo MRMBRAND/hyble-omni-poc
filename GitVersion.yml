@@ -1,0 +1,17 @@
+assembly-versioning-scheme: MajorMinorPatch
+assembly-file-versioning-scheme: MajorMinorPatchTag
+assembly-informational-format: "{NugetVersionV2}"
+mode: Mainline
+continuous-delivery-fallback-tag: ""
+branches:
+  main:
+    is-mainline: true
+    tag: ""
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+  pull-request:
+    regex: ^pullrequest?[/-]
+    tag: pullrequest-{BranchName}
+  feature:
+    regex: ^feature(s)?[/-]
+    tag: alpha-{BranchName}

@@ -1,0 +1,35 @@
+name: Upgrade npm packages
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 0" # on every Sunday
+
+jobs:
+  upgrade-packages:
+    name: Upgrade packages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js ⚙️
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+
+      - name: Install packages 🔀
+        run: npm install
+
+      - name: Upgrade packages 🔀
+        run: npm upgrade
+
+      - name: Commit and create PR 🔀
+        uses: peter-evans/create-pull-request@v7
+        with:
+          title: "Upgrade npm packages (automated)"
+          branch: "upgrade-npm-packages-automated"
+          commit-message: "chore(deps): upgrade npm packages (automated)"
+          delete-branch: true
+          token: ${{ secrets.GITHUB_TOKEN }}
