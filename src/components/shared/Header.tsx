@@ -41,7 +41,7 @@ const Header = () => {
         _focus={{ bg: 'none' }}
         _active={{ bg: 'none' }}
       >
-        <Icon as={ChevronLeft} w="6px" color="white" mr="4px" />
+        <Icon as={ChevronLeft} pb={0.5} h="100%" color="white" size="sm" />
         <Link color="white" href={window.ENV_CONFIG.urls.toolkitHomepage}>
           Back to Toolkit
         </Link>
