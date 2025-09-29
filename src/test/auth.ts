@@ -20,8 +20,3 @@ export const authState: TestAuthState = {
 export function setAuthState(overrides: Partial<TestAuthState>): void {
   Object.assign(authState, overrides);
 }
-
-vi.mock('@auth0/auth0-react', () => ({
-  useAuth0: () => authState,
-  Auth0Provider: ({ children }) => children,
-}));

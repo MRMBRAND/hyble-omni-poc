@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-type GenericProviderProps = {
+export type GenericProviderProps = {
   children: ReactNode;
 };
 
