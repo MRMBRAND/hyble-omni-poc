@@ -1,6 +1,8 @@
 import { Auth0Provider } from '@auth0/auth0-react';
 
-export const AuthProvider = ({ children }) => {
+import { GenericProviderProps } from '@/AppProviders';
+
+export function AuthProvider({ children }: GenericProviderProps) {
   return (
     <Auth0Provider
       clientId={window.ENV_CONFIG.auth0.clientId}
@@ -14,4 +16,4 @@ export const AuthProvider = ({ children }) => {
       {children}
     </Auth0Provider>
   );
-};
+}

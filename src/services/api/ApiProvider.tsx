@@ -1,10 +1,12 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
+
+import { GenericProviderProps } from '@/AppProviders';
 
 import { createRootApi } from '.';
 import { ApiContext } from './ApiContext';
 
-export function ApiProvider({ children }: { children: React.ReactNode }) {
+export function ApiProvider({ children }: GenericProviderProps) {
   const { getAccessTokenSilently } = useAuth0();
 
   const api = useMemo(

@@ -1,31 +1,39 @@
 # toolkit-boilerplate
 
-This is the boilerplate for all new Toolkit apps.
+This is the boilerplate for new hyble Toolkit apps.
 
 The following things are set up:
 
-- toolchain: TypeScript, Vite, ESLint, Prettier
-- testing: react-testing-library, msw
-- auth (Auth0)
-- fetch pattern (fetch)
-- client cache (React Query)
-- UI library (Chakra)
-- feature flags (our own method)
+| Feature               | Details                                    |
+| --------------------- | ------------------------------------------ |
+| Pipelines             | Azure Piplines: build, test and deployment |
+| Environment Variables | our own method                             |
+| Feature Flags         | our own method                             |
+| Toolchain             | TypeScript, Vite, ESLint, Prettier         |
+| Testing               | react-testing-library, msw                 |
+| Auth                  | Auth0                                      |
+| Api Client            | wrapper over fetch/auth0                   |
+| Client Cache          | React Query                                |
+| UI library            | Chakra                                     |
+
+## Getting Started
 
 When creating a new toolkit app, there are 2 main pieces - development and deployment. If you aren't familiar with how to deploy an application, you will likely need support - speak with the dev team.
 
 ### Development
 
-Use Node 22.
+Start by getting a new repository which uses this boilerplate as a starting point, then get the new boilerplate app setup and running.
 
-1. Clone the repository (see notes below)
-2. Install dependencies: `npm install`
-3. Set up local environment variables (see below)
-4. Run the app: `npm run dev`
+1. Set up your new repository
+1. Set up and run the app
 
-Once you're up and running, rename the boilerplate references in `index.html`, `package.json` etc - best search for "boilerplate".
+#### Set up your new repository
 
-#### Cloning the repository
+There are three steps to getting your repository set up:
+
+1. Create your new repository on Github
+1. Clone this boilerplate repository
+1. Point your boilerplate clone to your new repository and push
 
 Since this is a boilerplate repo, you shouldn't push to this repository unless you are updating the boilerplate. When creating a new toolkit app, you will want to create a new repository on GitHub. Please use the convention `toolkit-your-app-name` e.g `toolkit-manage-format-categories`.
 
@@ -39,6 +47,18 @@ git remote set-url origin git@github.com:MRMBRAND/toolkit-your-app-name.git`
 Now you can push/pull to the new empty repo and use the boilerplate as your starting point.
 
 #### Local Environment
+
+Use Node Active LTS (currently v22).
+
+Run the following commands to get the app setup and running.
+
+```sh
+npm install    # install app dependencies
+npm run setup  # setup env vars and feature flags
+npm run dev    # start dev server
+```
+
+Once you're up and running, rename the boilerplate references in `index.html`, `package.json` etc - best search for "boilerplate".
 
 To set up your local environment variables, run `cp public/env.template.js public/env.js` to create the real `env.js` file, then populate the variables using values from the [Azure DevOps Library](https://dev.azure.com/mrmltd/Brand%20Creator/_library?itemType=VariableGroups&view=VariableGroupView&variableGroupId=37&path=TOOLKIT-COMMON-DEV).
 
@@ -130,11 +150,3 @@ Add the new URL to the following sections.
 This will need done in both the development and production tenants with the appropriate URLs.
 
 Note - add the custom domain URLs, not the default Azure URLs.
-
-## Notes
-
-Users should only be able to access a Toolkit app with an ‘MRM Admin’ role. This is not implemented in the boilerplate code yet, but an example can be found in the `ToolkitManageFormatCategories` app.
-
-When you first pull down the boilerplate repository, don’t forget to change the `<title>` element in the `/index.html` to the name of your new app.
-
-Vitest is the recommended test runner used in the PWA/hyble, as well as in the `ToolkitManageFormatCategories` project
