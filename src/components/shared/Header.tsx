@@ -70,7 +70,12 @@ const Header = () => {
           />
         </Link>
 
-        <Box onClick={() => logout()} _hover={{ color: 'mrmMedDarkTeal' }}>
+        <Box
+          onClick={() =>
+            logout({ logoutParams: { returnTo: window.location.origin } })
+          }
+          _hover={{ color: 'mrmMedDarkTeal' }}
+        >
           <Icon data-testid="header-logout" as={Logout} w="24px" h="24px" />
         </Box>
       </Flex>
