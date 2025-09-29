@@ -45,7 +45,7 @@ describe('App', () => {
 
     // assert
     expect(
-      await screen.findByText('You are not permitted to access this app'),
+      await screen.findByText('You are not permitted to access this app.'),
     ).toBeInTheDocument();
   });
 });

@@ -9,10 +9,10 @@ const ExamplePage = lazy(() => import('../pages/Example/Example'));
 
 export const routes = [
   {
-    element: <ProtectedRoute />,
+    element: <Layout />,
     children: [
       {
-        element: <Layout />,
+        element: <ProtectedRoute />,
         children: [
           { index: true, element: <Home /> },
           { path: 'example-page', element: <ExamplePage /> },
