@@ -17,4 +17,8 @@ export interface EnvConfig {
   urls: {
     toolkitHomepage: string;
   };
+  keys: {
+    posthog_key: string;
+    posthog_host: string;
+  };
 }

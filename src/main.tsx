@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom/client';
 
+import { AnalyticsProvider } from '@/services/analytics/AnalyticsProvider';
 import { ApiProvider } from '@/services/api/ApiProvider';
 import { AuthProvider } from '@/services/auth/AuthProvider';
 import { CacheProvider } from '@/services/cache/CacheProvider';
@@ -24,6 +25,7 @@ finish sample tests
 root.render(
   <AppProviders
     providers={[
+      AnalyticsProvider,
       AuthProvider,
       ApiProvider,
       CacheProvider,
