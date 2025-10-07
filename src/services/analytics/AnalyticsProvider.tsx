@@ -1,12 +1,14 @@
 import { PostHogProvider } from 'posthog-js/react';
 
-export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
-  if (window.ENV_CONFIG.keys.posthog_key) {
+import { GenericProviderProps } from '@/AppProviders';
+
+export function AnalyticsProvider({ children }: GenericProviderProps) {
+  if (window.ENV_CONFIG.keys.posthogKey) {
     return (
       <PostHogProvider
-        apiKey={window.ENV_CONFIG.keys.posthog_key}
+        apiKey={window.ENV_CONFIG.keys.posthogKey}
         options={{
-          api_host: window.ENV_CONFIG.keys.posthog_host || '',
+          api_host: window.ENV_CONFIG.keys.posthogHost,
           debug: false,
           persistence: 'memory',
         }}

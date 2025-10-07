@@ -3,7 +3,7 @@ import { Flex, Heading } from '@chakra-ui/react';
 import { PrimaryButton } from '@/components/lib/buttons/PrimaryButton';
 import { useFetchStatusQuery } from '@/services/cache/queries/useFetchStatusQuery';
 
-const Home = () => {
+function Home() {
   const { data: status } = useFetchStatusQuery();
 
   return (
@@ -16,6 +16,6 @@ const Home = () => {
       />
     </Flex>
   );
-};
+}
 
 export default Home;

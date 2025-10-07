@@ -3,9 +3,7 @@ import { createOrderApi } from './apis/orderApi';
 import { createStatusApi } from './apis/statusApi';
 import { createApiClient } from './createApiClient';
 
-export const createRootApi = (
-  getAccessTokenSilently: () => Promise<string>,
-) => {
+export function createRootApi(getAccessTokenSilently: () => Promise<string>) {
   const apiClient = createApiClient(getAccessTokenSilently);
 
   return {
@@ -14,4 +12,4 @@ export const createRootApi = (
     ...createOrderApi(apiClient),
     // ... add more domain APIs here
   };
-};
+}

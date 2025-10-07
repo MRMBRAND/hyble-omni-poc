@@ -4,6 +4,10 @@ window.ENV_CONFIG = {
     clientId: '#{auth0.client_id}#',
     domain: '#{auth0.domain}#',
   },
+  keys: {
+    posthogKey: '#{keys.posthog_key}#',
+    posthogHost: '#{keys.posthog_host}#',
+  },
   hosts: {
     orders: '#{hosts.orders}#',
   },
