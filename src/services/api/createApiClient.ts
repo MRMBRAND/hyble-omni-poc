@@ -5,10 +5,10 @@ export type FetchHelperOptions = {
 export const createApiClient = (
   getAccessTokenSilently: () => Promise<string>,
 ) => {
-  const fetchHelper = async <T>(
+  async function fetchHelper<T>(
     request: Request,
     options?: FetchHelperOptions,
-  ): Promise<T> => {
+  ): Promise<T> {
     const token = await getAccessTokenSilently();
 
     if (token) {
@@ -53,7 +53,7 @@ export const createApiClient = (
     }
 
     throw new Error(`Unsupported content-type: ${contentType}`);
-  };
+  }
 
   return { fetchHelper };
 };

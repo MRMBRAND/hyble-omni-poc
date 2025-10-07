@@ -14,14 +14,6 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
-/*
-todo:
-local feature flags
-readme with architecture guide
--> "it's not clear where to put this new code" -> lets discuss and define arch/patterns
-finish sample tests
-*/
-
 root.render(
   <AppProviders
     providers={[

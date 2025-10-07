@@ -24,44 +24,44 @@ function combineFeatureFlags(featureFlags: FeatureFlag[]) {
   return Array.from(set) as FeatureFlags;
 }
 
-export const createFeatureFlagsApi = (
+export function createFeatureFlagsApi(
   apiClient: ReturnType<typeof createApiClient>,
-) => ({
-  fetchFeatureFlags: async (): Promise<FeatureFlags> => {
-    const remoteFeatureFlagsRequest = new Request(
-      getRemoteFeatureFlagsEndpoint(),
-      {
-        headers: new Headers({
-          'X-Hyble-Namespace': FEATURE_FLAGS_NAMESPACE,
-        }),
-      },
-    );
-
-    const remoteFeatureFlags = await apiClient.fetchHelper<FeatureFlags>(
-      remoteFeatureFlagsRequest,
-    );
-
-    let localFeatureFlags: FeatureFlags = [];
-
-    try {
-      const localFeatureFlagsRequest = new Request(
-        getLocalFeatureFlagsEndpoint(),
+) {
+  return {
+    fetchFeatureFlags: async (): Promise<FeatureFlags> => {
+      const remoteFeatureFlagsRequest = new Request(
+        getRemoteFeatureFlagsEndpoint(),
+        {
+          headers: new Headers({
+            'X-Hyble-Namespace': FEATURE_FLAGS_NAMESPACE,
+          }),
+        },
       );
 
-      localFeatureFlags = await apiClient.fetchHelper<FeatureFlags>(
-        localFeatureFlagsRequest,
+      const remoteFeatureFlags = await apiClient.fetchHelper<FeatureFlags>(
+        remoteFeatureFlagsRequest,
       );
-    } catch {
-      // ignore
-    }
 
-    const allFeatureFlags = combineFeatureFlags([
-      ...remoteFeatureFlags,
-      ...localFeatureFlags,
-    ]);
+      let localFeatureFlags: FeatureFlags = [];
 
-    console.log(allFeatureFlags);
+      try {
+        const localFeatureFlagsRequest = new Request(
+          getLocalFeatureFlagsEndpoint(),
+        );
 
-    return allFeatureFlags;
-  },
-});
+        localFeatureFlags = await apiClient.fetchHelper<FeatureFlags>(
+          localFeatureFlagsRequest,
+        );
+      } catch {
+        // ignore
+      }
+
+      const allFeatureFlags = combineFeatureFlags([
+        ...remoteFeatureFlags,
+        ...localFeatureFlags,
+      ]);
+
+      return allFeatureFlags;
+    },
+  };
+}

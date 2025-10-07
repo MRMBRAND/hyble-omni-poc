@@ -5,7 +5,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 
 // prettier-ignore
 const Home = lazy(() => import('../pages/Home/Home'));
-const ExamplePage = lazy(() => import('../pages/Example/Example'));
+const Unauthorized = lazy(() => import('../pages/Unauthorized/Unauthorized'));
 
 export const routes = [
   {
@@ -13,10 +13,16 @@ export const routes = [
     children: [
       {
         element: <ProtectedRoute />,
-        children: [
-          { index: true, element: <Home /> },
-          { path: 'example-page', element: <ExamplePage /> },
-        ],
+        children: [{ index: true, element: <Home /> }],
+      },
+    ],
+  },
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: '/unauthorized',
+        element: <Unauthorized />,
       },
     ],
   },
