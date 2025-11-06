@@ -9,12 +9,14 @@ The following things are set up:
 | Pipelines             | Azure Piplines: build, test and deployment |
 | Environment Variables | our own method                             |
 | Feature Flags         | our own method                             |
+| Framework             | React                                      |
 | Toolchain             | TypeScript, Vite, ESLint, Prettier         |
 | Testing               | react-testing-library, msw                 |
 | Auth                  | Auth0                                      |
 | Api Client            | wrapper over fetch/auth0                   |
 | Client Cache          | React Query                                |
 | UI library            | Chakra                                     |
+| Analytics             | Posthog                                    |
 
 ## Getting Started
 
