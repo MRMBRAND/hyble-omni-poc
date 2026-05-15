@@ -1,5 +1,3 @@
-/// <reference types="vitest/config" />
-// vite.config.js
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
@@ -21,6 +19,9 @@ export default defineConfig({
   plugins: [react(), viteTsconfigPaths(), svgr()],
   build: {
     target: 'esnext',
+  },
+  server: {
+    port: 3000,
   },
   test: {
     environment: 'happy-dom',

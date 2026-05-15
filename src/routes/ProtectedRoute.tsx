@@ -1,8 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import { Spinner } from 'components/lib/Spinner/Spinner';
-import { isAdmin } from 'services/auth/util';
 
 export const ProtectedRoute = () => {
   const { user, isLoading, loginWithRedirect } = useAuth0();
@@ -16,9 +15,9 @@ export const ProtectedRoute = () => {
     return;
   }
 
-  if (!isLoading && !isAdmin(user)) {
-    return <Navigate to="unauthorized" />;
-  }
+  // if (!isLoading && !isAdmin(user)) {
+  //   return <Navigate to="unauthorized" />;
+  // }
 
   return <Outlet />;
 };

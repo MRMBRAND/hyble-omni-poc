@@ -14,7 +14,7 @@ const __dirname = path.dirname(__filename);
 
 const localFeaturesFilePath = path.join(__dirname, '../public/features.json');
 const localEnvConfigPath = path.join(__dirname, '../public/env.js');
-const devEnvConfigUrl = 'https://toolkit-boilerplate-dev.hyble.app/env.js';
+// const devEnvConfigUrl = 'https://toolkit-boilerplate-dev.hyble.app/env.js';
 
 async function setup() {
   try {
