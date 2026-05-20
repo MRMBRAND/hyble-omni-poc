@@ -32,3 +32,4 @@ public/features.json
 
 *storybook.log
 storybook-static
+.claude/settings.local.json
