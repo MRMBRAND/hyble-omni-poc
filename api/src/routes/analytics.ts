@@ -82,8 +82,8 @@ app.get('/api/v4/analytics/omni-embed-url', async (c) => {
   // URL-encode user attributes as JSON
   const encodedUserAttributes = encodeURIComponent(JSON.stringify(userAttributes));
 
-  // Generate nonce
-  const nonce = randomUUID();
+  // Generate nonce (Omni requires exactly 32 characters, UUID without hyphens)
+  const nonce = randomUUID().replace(/-/g, '');
 
   // Build Omni API request
   const omniRequest: OmniApiRequest = {
@@ -107,7 +107,10 @@ app.get('/api/v4/analytics/omni-embed-url', async (c) => {
     });
 
     if (!response.ok) {
+      const errorText = await response.text();
       console.error(`Omni API error: ${response.status} ${response.statusText}`);
+      console.error(`Omni response body: ${errorText}`);
+      console.error(`Request sent to Omni:`, JSON.stringify(omniRequest, null, 2));
       return c.json({ error: 'Omni embed URL generation failed' }, 503);
     }
 
