@@ -44,18 +44,14 @@ app.get('/api/v4/analytics/omni-embed-url', async (c) => {
   // Extract user claims from JWT
   const user = c.get('user') as any;
 
-  // Debug: Log all available claims
-  console.log('Available JWT claims:', Object.keys(user || {}));
-  console.log('Full JWT payload:', JSON.stringify(user, null, 2));
-
-  const externalId = user?.sub; // Auth0 uses 'sub' for user ID
-  const userEmail = user?.['https://toolkit.hyble.app/email'] || user?.email || user?.nickname;
+  // Extract claims using mrmglobal.com namespace
+  const externalId = user?.['https://mrmglobal.com/unique_id'];
+  const userEmail = user?.['https://mrmglobal.com/unique_name'];
 
   if (!externalId || !userEmail) {
     console.error('Missing required user claims:');
-    console.error(`  - sub (externalId): ${externalId ? '✓' : '✗'}`);
-    console.error(`  - email: ${userEmail ? '✓' : '✗'}`);
-    console.error('Available claims:', Object.keys(user || {}).join(', '));
+    console.error(`  - unique_id (externalId): ${externalId ? '✓' : '✗'}`);
+    console.error(`  - unique_name (email): ${userEmail ? '✓' : '✗'}`);
     return c.json({ error: 'Missing user claims' }, 401);
   }
 
@@ -65,19 +61,22 @@ app.get('/api/v4/analytics/omni-embed-url', async (c) => {
   };
 
   // Add optional claims if present and not zero/null
-  const role = user?.['https://toolkit.hyble.app/role'];
-  if (role) {
-    userAttributes.role = role;
+  const roleArray = user?.['https://mrmglobal.com/role'];
+  if (roleArray && Array.isArray(roleArray) && roleArray.length > 0) {
+    // If it's an array, take the first element
+    userAttributes.role = roleArray[0];
+  } else if (roleArray && typeof roleArray === 'string') {
+    userAttributes.role = roleArray;
   }
 
-  const marketId = user?.['https://toolkit.hyble.app/marketId'];
-  if (marketId && marketId !== 0) {
-    userAttributes.marketId = marketId;
+  const marketId = user?.['https://mrmglobal.com/market_id'];
+  if (marketId && marketId !== 0 && marketId !== '0') {
+    userAttributes.marketId = parseInt(marketId, 10);
   }
 
-  const brandId = user?.['https://toolkit.hyble.app/brandId'];
-  if (brandId && brandId !== 0) {
-    userAttributes.brandId = brandId;
+  const brandId = user?.['https://mrmglobal.com/brand_id'];
+  if (brandId && brandId !== 0 && brandId !== '0') {
+    userAttributes.brandId = parseInt(brandId, 10);
   }
 
   // URL-encode user attributes as JSON

@@ -52,14 +52,6 @@ app.notFound((c) => {
 // Start server
 const port = parseInt(process.env.PORT || '3001', 10);
 
-// Debug: Log environment variables status
-console.log('\nEnvironment Variables Status:');
-console.log(`  AUTH0_DOMAIN: ${process.env.AUTH0_DOMAIN ? '✓' : '✗ MISSING'}`);
-console.log(`  AUTH0_AUDIENCE: ${process.env.AUTH0_AUDIENCE ? '✓' : '✗ MISSING'}`);
-console.log(`  OMNI_BASE_URL: ${process.env.OMNI_BASE_URL ? '✓' : '✗ MISSING'}`);
-console.log(`  OMNI_EMBED_SECRET: ${process.env.OMNI_EMBED_SECRET ? '✓' : '✗ MISSING'}`);
-console.log(`  OMNI_CONTENT_PATH: ${process.env.OMNI_CONTENT_PATH ? '✓' : '✗ MISSING'}\n`);
-
 serve(
   {
     fetch: app.fetch,
