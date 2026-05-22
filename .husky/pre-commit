@@ -1,1 +1,12 @@
-cd frontend && npx tsc --build --noEmit && npx lint-staged && cd ..
+#!/bin/sh
+set -e
+
+# Run TypeScript type check in frontend
+cd frontend
+npx tsc --build --noEmit
+
+# Run linting on staged files
+npx lint-staged
+
+# Return to root
+cd ..
