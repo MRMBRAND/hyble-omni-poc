@@ -1,7 +1,7 @@
 {
   "name": "hyble-omni-poc",
   "private": true,
-  "workspaces": ["frontend"],
+  "workspaces": ["frontend", "api"],
   "scripts": {
     "prepare": "husky"
   },
