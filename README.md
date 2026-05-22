@@ -1,3 +1,64 @@
+# Hyble Omni POC
+
+A monorepo containing a React/Vite frontend and Node.js/Hono backend API for the Omni embed integration.
+
+## Quick Start (Development)
+
+### Prerequisites
+- Node.js 18+
+- npm 9+
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+This installs dependencies for all workspaces (frontend and api).
+
+### Run Both Services
+
+```bash
+npm run dev
+```
+
+This starts both the frontend (http://localhost:5173) and API (http://localhost:3001) in parallel using `concurrently`.
+
+Each service has its own terminal output with `[frontend]` and `[api]` prefixes.
+
+### Run Individual Services
+
+```bash
+# Frontend only
+npm run dev:frontend
+
+# API only
+npm run dev:api
+```
+
+### Build
+
+```bash
+# Build all workspaces
+npm run build
+
+# Build frontend only
+npm run build:frontend
+
+# Build API only
+npm run build:api
+```
+
+## Project Structure
+
+- **`frontend/`** - React SPA with Vite, Chakra UI, Auth0, Tanstack Query
+- **`api/`** - Node.js API with Hono framework
+- **`.husky/`** - Git hooks for linting and formatting
+
+See individual README files in each workspace for detailed documentation.
+
+---
+
 ### (to be edited in the future, will leave here for future reference once we decide what to do with this repository/project)
 
 # toolkit-boilerplate

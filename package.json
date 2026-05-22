@@ -3,9 +3,16 @@
   "private": true,
   "workspaces": ["frontend", "api"],
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=api\" --names \"frontend,api\" --prefix \"[{name}]\" --kill-others-on-fail",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:api": "npm run dev --workspace=api",
+    "build": "npm run build --workspaces",
+    "build:frontend": "npm run build --workspace=frontend",
+    "build:api": "npm run build --workspace=api"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "husky": "^9.1.7"
   }
 }
