@@ -32,7 +32,7 @@ npm install
 
 ### Configure Environment Variables
 
-Create `.env.local` in this directory with your configuration:
+Create `.env.local` in this directory (`api/`) with your configuration:
 
 ```env
 # Auth0 (required)
@@ -49,7 +49,10 @@ PORT=3001
 FRONTEND_URL=http://localhost:5173
 ```
 
-**Note:** `.env.local` is in `.gitignore` and won't be committed.
+**Note:** 
+- `.env.local` is in `.gitignore` and won't be committed
+- The file is automatically loaded using `dotenv` when the server starts
+- Create it in the `api/` directory (same level as `package.json`)
 
 ### Run Development Server
 
