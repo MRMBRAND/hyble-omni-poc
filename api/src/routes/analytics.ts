@@ -1,7 +1,13 @@
-import { Hono } from 'hono';
+import { Hono, Context } from 'hono';
 import { randomUUID } from 'crypto';
 
-const app = new Hono();
+type AppContext = {
+  Variables: {
+    user: Record<string, any>;
+  };
+};
+
+const app = new Hono<AppContext>();
 
 interface OmniEmbedUrlResponse {
   url: string;
@@ -42,7 +48,7 @@ app.get('/api/v4/analytics/omni-embed-url', async (c) => {
   }
 
   // Extract user claims from JWT
-  const user = c.get('user') as any;
+  const user = c.get('user');
 
   // Extract claims using mrmglobal.com namespace
   const externalId = user?.['https://mrmglobal.com/unique_id'];

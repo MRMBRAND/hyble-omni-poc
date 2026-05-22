@@ -1,6 +1,12 @@
 import { jwtVerify } from 'jose';
 import { Context, Next } from 'hono';
 
+type AppContext = {
+  Variables: {
+    user: Record<string, any>;
+  };
+};
+
 const getJwksUrl = (domain: string) => `https://${domain}/.well-known/jwks.json`;
 
 let cachedJwks: Record<string, any> = {};
@@ -14,12 +20,12 @@ async function getJwks(domain: string) {
   }
 
   const response = await fetch(getJwksUrl(domain));
-  cachedJwks = await response.json();
+  cachedJwks = (await response.json()) as Record<string, any>;
   jwksCachetime = now + JWKS_CACHE_DURATION;
   return cachedJwks;
 }
 
-export async function authMiddleware(c: Context, next: Next) {
+export async function authMiddleware(c: Context<AppContext>, next: Next) {
   const authHeader = c.req.header('Authorization');
 
   if (!authHeader?.startsWith('Bearer ')) {
