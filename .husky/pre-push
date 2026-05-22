@@ -1,2 +1,8 @@
+#!/bin/sh
+set -e
+
+# Build all workspaces
 npm run build
-npm test
+
+# Run tests in frontend (where tests exist)
+npm run test --workspace=frontend

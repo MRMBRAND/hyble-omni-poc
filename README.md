@@ -82,6 +82,22 @@ npm run build:api
 
 See individual README files in each workspace for detailed documentation.
 
+## Deployment (Railway)
+
+This monorepo requires **two separate Railway services** from the same GitHub repository:
+
+### Frontend Service
+- **Root Directory:** `frontend/`
+- **Railway Config:** Uses `frontend/railway.toml`
+- See [`frontend/README.md`](./frontend/README.md#deployment-railway) for environment variables
+
+### Analytics API Service
+- **Root Directory:** `api/`
+- **Railway Config:** Uses `api/railway.toml`
+- See [`api/README.md`](./api/README.md#deployment-railway) for environment variables
+
+Both services are built and deployed independently from the same repository.
+
 ---
 
 ### (to be edited in the future, will leave here for future reference once we decide what to do with this repository/project)
