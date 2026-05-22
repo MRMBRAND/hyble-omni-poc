@@ -43,11 +43,19 @@ app.get('/api/v4/analytics/omni-embed-url', async (c) => {
 
   // Extract user claims from JWT
   const user = c.get('user') as any;
+
+  // Debug: Log all available claims
+  console.log('Available JWT claims:', Object.keys(user || {}));
+  console.log('Full JWT payload:', JSON.stringify(user, null, 2));
+
   const externalId = user?.sub; // Auth0 uses 'sub' for user ID
   const userEmail = user?.['https://toolkit.hyble.app/email'] || user?.email || user?.nickname;
 
   if (!externalId || !userEmail) {
-    console.error('Missing required user claims');
+    console.error('Missing required user claims:');
+    console.error(`  - sub (externalId): ${externalId ? '✓' : '✗'}`);
+    console.error(`  - email: ${userEmail ? '✓' : '✗'}`);
+    console.error('Available claims:', Object.keys(user || {}).join(', '));
     return c.json({ error: 'Missing user claims' }, 401);
   }
 
