@@ -12,6 +12,7 @@ export interface EnvConfig {
   };
   hosts: {
     orders: string;
+    analyticsApi: string;
     featureFlags: string;
   };
   urls: {

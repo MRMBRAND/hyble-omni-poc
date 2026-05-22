@@ -7,6 +7,7 @@ const required = [
   'POSTHOG_KEY',
   'POSTHOG_HOST',
   'ORDERS_HOST',
+  'ANALYTICS_API_HOST',
   'TOOLKIT_HOMEPAGE_URL',
 ];
 
@@ -28,6 +29,7 @@ const config = {
   },
   hosts: {
     orders: process.env.ORDERS_HOST,
+    analyticsApi: process.env.ANALYTICS_API_HOST,
   },
   urls: {
     toolkitHomepage: process.env.TOOLKIT_HOMEPAGE_URL,

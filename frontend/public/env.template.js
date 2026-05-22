@@ -10,6 +10,7 @@ window.ENV_CONFIG = {
   },
   hosts: {
     orders: '#{hosts.orders}#',
+    analyticsApi: '#{hosts.analytics_api}#',
   },
   urls: {
     toolkitHomepage: '#{urls.toolkit_homepage}#',

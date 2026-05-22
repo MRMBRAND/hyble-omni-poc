@@ -10,6 +10,7 @@ window.ENV_CONFIG = {
   },
   hosts: {
     orders: 'http://ordersServiceHost',
+    analyticsApi: 'http://analyticsApiHost',
     featureFlags: 'http://featuresHost/',
   },
   urls: {
