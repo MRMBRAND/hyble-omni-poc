@@ -16,6 +16,31 @@ npm install
 
 This installs dependencies for all workspaces (frontend and api).
 
+### Configure Local Environment
+
+**API Environment Variables (required)**
+
+Create `api/.env.local` with your Omni and Auth0 credentials:
+
+```env
+# Auth0 Configuration
+AUTH0_DOMAIN=mrmglobal-dev.eu.auth0.com
+AUTH0_AUDIENCE=your-auth0-api-audience
+
+# Omni Configuration (for embed URL generation)
+OMNI_BASE_URL=https://your-org.omniapp.co
+OMNI_EMBED_SECRET=your-embed-secret-key
+OMNI_CONTENT_PATH=/dashboards/home
+
+# Optional
+PORT=3001
+FRONTEND_URL=http://localhost:5173
+```
+
+See [API README](./api/README.md#environment-variables) for detailed documentation on obtaining these values.
+
+The `.env.local` file is in `.gitignore` and won't be committed.
+
 ### Run Both Services
 
 ```bash

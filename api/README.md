@@ -30,6 +30,27 @@ api/
 npm install
 ```
 
+### Configure Environment Variables
+
+Create `.env.local` in this directory with your configuration:
+
+```env
+# Auth0 (required)
+AUTH0_DOMAIN=mrmglobal-dev.eu.auth0.com
+AUTH0_AUDIENCE=your-auth0-api-audience
+
+# Omni (required for embed URL endpoint)
+OMNI_BASE_URL=https://your-org.omniapp.co
+OMNI_EMBED_SECRET=your-embed-secret-key
+OMNI_CONTENT_PATH=/dashboards/home
+
+# Optional
+PORT=3001
+FRONTEND_URL=http://localhost:5173
+```
+
+**Note:** `.env.local` is in `.gitignore` and won't be committed.
+
 ### Run Development Server
 
 ```bash
@@ -69,17 +90,44 @@ Returns `{ url: string }` with the signed Omni embed URL.
 ## Environment Variables
 
 ### Auth0 (Required)
-- `AUTH0_DOMAIN` - Auth0 tenant domain (e.g. `mrmglobal-dev.eu.auth0.com`)
-- `AUTH0_AUDIENCE` - Auth0 API audience identifier
+
+**`AUTH0_DOMAIN`**
+- Your Auth0 tenant domain
+- Example: `mrmglobal-dev.eu.auth0.com`
+- Where to find: Auth0 Dashboard → Settings → Domain
+
+**`AUTH0_AUDIENCE`**
+- Auth0 API audience identifier
+- Example: `https://api.toolkit.hyble.app`
+- Where to find: Auth0 Dashboard → APIs → Select your API → Settings → Identifier
 
 ### Omni (Required for embed URL endpoint)
-- `OMNI_BASE_URL` - Omni instance base URL (e.g. `https://yourorg.omniapp.co`)
-- `OMNI_EMBED_SECRET` - Secret key for SSO URL generation
-- `OMNI_CONTENT_PATH` - Default dashboard path (e.g. `/dashboards/home`)
+
+**`OMNI_BASE_URL`**
+- Your Omni instance base URL
+- Example: `https://yourorg.omniapp.co`
+- Where to find: Check your Omni dashboard URL or ask your Omni administrator
+
+**`OMNI_EMBED_SECRET`**
+- Secret key for SSO URL generation (used to sign the embed URLs)
+- Where to find: Omni instance settings/administration panel (ask your Omni administrator)
+- ⚠️ **Keep this secret** - never commit to version control
+
+**`OMNI_CONTENT_PATH`**
+- Default dashboard path for the embed
+- Example: `/dashboards/home`
+- Where to find: Customizable based on your Omni dashboard setup, ask your Omni administrator
 
 ### Server (Optional)
-- `PORT` - Server port (default: 3001)
-- `FRONTEND_URL` - Frontend origin for CORS (optional, for non-local deployments)
+
+**`PORT`**
+- Server port (default: 3001)
+- Example: `3001`
+
+**`FRONTEND_URL`**
+- Frontend origin for CORS (used in production deployments)
+- Example: `https://frontend-service.railway.app`
+- Not needed for local development
 
 ### Custom Claims in Auth0 JWT
 
@@ -117,14 +165,39 @@ The `/api/v4/analytics/omni-embed-url` endpoint:
 
 ## Deployment (Railway)
 
-The API is deployed as a separate Railway service:
+The API is deployed as a separate Railway service from the frontend:
 
-1. In Railway dashboard, create a new service pointing to this repo with root directory: `api/`
-2. Set environment variables:
-   - **Auth0:** `AUTH0_DOMAIN`, `AUTH0_AUDIENCE`
-   - **Omni:** `OMNI_BASE_URL`, `OMNI_EMBED_SECRET`, `OMNI_CONTENT_PATH`
-   - **Server:** `PORT` (optional)
-3. Connect the service to your GitHub repo
-4. Railway will automatically run `npm ci && npm run build && npm start`
+### Steps
 
-Once deployed, update the frontend's `ORDERS_HOST` env var in the frontend Railway service to point to the new API service URL (e.g., `https://api-service-name.railway.app`).
+1. **Create a new Railway service** for the API
+   - Connect to your GitHub repository
+   - Set root directory to `api/`
+
+2. **Configure environment variables** in Railway dashboard:
+   ```
+   AUTH0_DOMAIN=mrmglobal-dev.eu.auth0.com
+   AUTH0_AUDIENCE=your-auth0-api-audience
+   OMNI_BASE_URL=https://your-org.omniapp.co
+   OMNI_EMBED_SECRET=your-embed-secret-key
+   OMNI_CONTENT_PATH=/dashboards/home
+   PORT=3001
+   ```
+
+3. **Railway automatically deploys** using `api/railway.toml`:
+   ```bash
+   # Build
+   npm ci && npm run build
+   
+   # Start
+   npm start
+   ```
+
+### Updating the Frontend Service
+
+Once the API service is deployed, update the frontend's `ORDERS_HOST` environment variable:
+
+1. Open the frontend Railway service settings
+2. Add/update: `ORDERS_HOST=https://api-service-name.railway.app`
+3. The frontend will use this URL instead of the external Orders Service
+
+The service URL is shown in the Railway dashboard when you deploy (e.g., `https://api-production-xxxx.railway.app`).
