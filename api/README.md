@@ -68,31 +68,63 @@ Returns `{ url: string }` with the signed Omni embed URL.
 
 ## Environment Variables
 
-Required for production:
-
+### Auth0 (Required)
 - `AUTH0_DOMAIN` - Auth0 tenant domain (e.g. `mrmglobal-dev.eu.auth0.com`)
 - `AUTH0_AUDIENCE` - Auth0 API audience identifier
-- `OMNI_API_KEY` - Omni API credentials (TBD based on Omni integration)
+
+### Omni (Required for embed URL endpoint)
+- `OMNI_BASE_URL` - Omni instance base URL (e.g. `https://yourorg.omniapp.co`)
+- `OMNI_EMBED_SECRET` - Secret key for SSO URL generation
+- `OMNI_CONTENT_PATH` - Default dashboard path (e.g. `/dashboards/home`)
+
+### Server (Optional)
 - `PORT` - Server port (default: 3001)
 - `FRONTEND_URL` - Frontend origin for CORS (optional, for non-local deployments)
 
-## Implementation Notes
+### Custom Claims in Auth0 JWT
 
-The `/api/v4/analytics/omni-embed-url` endpoint is scaffolded but not yet implemented. To complete it:
+The API expects the following custom claims in the Auth0 JWT (namespace: `https://toolkit.hyble.app/`):
+- `role` - User role (optional, passed to Omni)
+- `marketId` - Market ID (optional, passed to Omni if non-zero)
+- `brandId` - Brand ID (optional, passed to Omni if non-zero)
+- `email` - User email (used as the "name" field for Omni)
 
-1. Review the Orders Service implementation to understand how the Omni embed URL is generated
-2. Determine whether it requires calling an external Omni API, signing a local JWT, or other mechanism
-3. Implement the handler in `src/routes/analytics.ts`
-4. Add the necessary environment variables to Railway
-5. Test with the frontend
+Standard Auth0 claims used:
+- `sub` - User ID (used as externalId for Omni)
+
+## Implementation Details
+
+### Omni Embed URL Generation
+
+The `/api/v4/analytics/omni-embed-url` endpoint:
+
+1. Validates Auth0 JWT and extracts user claims (subject, email, custom claims)
+2. Validates required Omni configuration (BaseUrl, EmbedSecret, ContentPath)
+3. Builds user attributes object with userId and optional role/marketId/brandId
+4. Generates a unique nonce (UUID)
+5. Makes a POST request to Omni's `/embed/sso/generate-url` endpoint with:
+   - contentPath
+   - externalId (user ID)
+   - name (user email)
+   - secret (Omni embed secret)
+   - nonce
+   - userAttributes (URL-encoded JSON)
+6. Returns the signed embed URL from Omni
+
+**Error Handling:**
+- 401 Unauthorized - Missing user claims
+- 503 Service Unavailable - Missing configuration or Omni API errors
 
 ## Deployment (Railway)
 
 The API is deployed as a separate Railway service:
 
 1. In Railway dashboard, create a new service pointing to this repo with root directory: `api/`
-2. Set environment variables: `AUTH0_DOMAIN`, `AUTH0_AUDIENCE`, `OMNI_API_KEY`
+2. Set environment variables:
+   - **Auth0:** `AUTH0_DOMAIN`, `AUTH0_AUDIENCE`
+   - **Omni:** `OMNI_BASE_URL`, `OMNI_EMBED_SECRET`, `OMNI_CONTENT_PATH`
+   - **Server:** `PORT` (optional)
 3. Connect the service to your GitHub repo
 4. Railway will automatically run `npm ci && npm run build && npm start`
 
-Once deployed, update the frontend's `ORDERS_HOST` env var to point to the API service URL.
+Once deployed, update the frontend's `ORDERS_HOST` env var in the frontend Railway service to point to the new API service URL (e.g., `https://api-service-name.railway.app`).
