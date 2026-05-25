@@ -7,3 +7,5 @@ export const getStatusEndpoint = () => `${ordersServiceHost}/api/v1-0/status`;
 export const getOrdersEndpoint = () => `${ordersServiceHost}/api/v3/orders`;
 export const getOmniEmbedUrlEndpoint = () =>
   `${ordersServiceHost}/api/v4/analytics/omni-embed-url`;
+export const getOmniAgentUrlEndpoint = () =>
+  `${ordersServiceHost}/api/v4/analytics/omni-agent-url`;
