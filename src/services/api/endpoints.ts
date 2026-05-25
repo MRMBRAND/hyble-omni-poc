@@ -5,3 +5,5 @@ export const getRemoteFeatureFlagsEndpoint = () => `${ordersServiceHost}/api/v3/
 export const getLocalFeatureFlagsEndpoint = () => './features.json';
 export const getStatusEndpoint = () => `${ordersServiceHost}/api/v1-0/status`;
 export const getOrdersEndpoint = () => `${ordersServiceHost}/api/v3/orders`;
+export const getOmniEmbedUrlEndpoint = () =>
+  `${ordersServiceHost}/api/v4/analytics/omni-embed-url`;
