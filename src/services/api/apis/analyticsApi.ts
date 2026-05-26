@@ -1,5 +1,5 @@
 import { createApiClient } from '../createApiClient';
-import { getOmniEmbedUrlEndpoint } from '../endpoints';
+import { getOmniAgentUrlEndpoint, getOmniEmbedUrlEndpoint } from '../endpoints';
 
 interface IOmniEmbedUrlResponse {
   url: string;
@@ -11,6 +11,10 @@ export function createAnalyticsApi(
   return {
     fetchOmniEmbedUrl: async (): Promise<IOmniEmbedUrlResponse> => {
       const request = new Request(getOmniEmbedUrlEndpoint());
+      return apiClient.fetchHelper<IOmniEmbedUrlResponse>(request);
+    },
+    fetchOmniAgentUrl: async (): Promise<IOmniEmbedUrlResponse> => {
+      const request = new Request(getOmniAgentUrlEndpoint());
       return apiClient.fetchHelper<IOmniEmbedUrlResponse>(request);
     },
   };

@@ -1,10 +1,13 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 
+import { AgentPanel } from '@/components/shared/AgentPanel/AgentPanel';
 import { OmniEmbed } from '@/components/shared/OmniEmbed/OmniEmbed';
+import { useAgentPanel } from '@/services/agent/AgentPanelContext';
 import { useFetchOmniEmbedUrlQuery } from '@/services/cache/queries/useFetchOmniEmbedUrlQuery';
 
 function Analytics() {
   const { data, isLoading, error } = useFetchOmniEmbedUrlQuery();
+  const { isOpen, panelWidth } = useAgentPanel();
 
   if (isLoading) {
     return (
@@ -32,7 +35,14 @@ function Analytics() {
     );
   }
 
-  return <OmniEmbed url={data.url} />;
+  return (
+    <Flex h="calc(100vh - 80px)" w="100%" overflow="hidden">
+      <Flex flex={1} overflow="hidden">
+        <OmniEmbed url={data.url} />
+      </Flex>
+      <AgentPanel isOpen={isOpen} initialWidth={panelWidth} />
+    </Flex>
+  );
 }
 
 export default Analytics;

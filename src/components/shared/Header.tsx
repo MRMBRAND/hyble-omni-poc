@@ -1,6 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Button, Flex, Icon, Link, Spacer } from '@chakra-ui/react';
+import { SVGProps } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { useAgentPanel } from '@/services/agent/AgentPanelContext';
 
 import {
   ChevronLeft,
@@ -9,9 +12,23 @@ import {
   QuestionMark,
 } from 'components/lib/Icons';
 
+const ChatIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8l-2 2V4h14v12z" />
+  </svg>
+);
+
 const Header = () => {
   const navigate = useNavigate();
   const { logout } = useAuth0();
+  const { togglePanel } = useAgentPanel();
 
   return (
     <Flex
@@ -55,6 +72,14 @@ const Header = () => {
         style={{ cursor: 'pointer' }}
         color={'mrmMedTeal'}
       >
+        <Box
+          onClick={togglePanel}
+          _hover={{ color: 'mrmMedDarkTeal' }}
+          title="Toggle AI Agent"
+        >
+          <Icon as={ChatIcon} w="20px" h="20px" />
+        </Box>
+
         <Link
           href={'https://support.hyble.tech/'}
           target="_blank"

@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom/client';
 
+import { AgentPanelProvider } from '@/services/agent/AgentPanelContext';
 import { AnalyticsProvider } from '@/services/analytics/AnalyticsProvider';
 import { ApiProvider } from '@/services/api/ApiProvider';
 import { AuthProvider } from '@/services/auth/AuthProvider';
@@ -22,6 +23,7 @@ root.render(
       ApiProvider,
       CacheProvider,
       FeatureFlagsProvider,
+      AgentPanelProvider,
       UiProvider,
     ]}
   >
