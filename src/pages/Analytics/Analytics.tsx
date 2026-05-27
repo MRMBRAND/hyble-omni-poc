@@ -36,8 +36,8 @@ function Analytics() {
   }
 
   return (
-    <Flex h="calc(100vh - 80px)" w="100%" overflow="hidden">
-      <Flex flex={1} overflow="hidden">
+    <Flex h="calc(100vh - 80px)" w="100%" overflow="auto">
+      <Flex flex={1} overflow="auto" direction="column">
         <OmniEmbed url={data.url} />
       </Flex>
       <AgentPanel isOpen={isOpen} initialWidth={panelWidth} />
