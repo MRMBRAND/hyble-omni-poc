@@ -8,6 +8,10 @@ export function useFetchOmniAgentUrlQuery(enabled: boolean) {
   return useQuery({
     queryKey: ['omni-agent-url'],
     queryFn: () => api.fetchOmniAgentUrl(),
+    staleTime: 30 * 60 * 1000, // 30 minutes
+    gcTime: 60 * 60 * 1000, // 1 hour
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
     enabled,
     retry: 0,
     throwOnError: false,
