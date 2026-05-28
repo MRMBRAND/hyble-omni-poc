@@ -18,7 +18,8 @@ export function AgentPanel({
   initialWidth = 350,
 }: AgentPanelProps) {
   const panelRef = useRef<HTMLDivElement>(null);
-  const { data, isLoading, error } = useFetchOmniAgentUrlQuery(isOpen);
+  // Keep iframe loaded regardless of panel visibility to preserve state and avoid one-time secret reuse
+  const { data, isLoading, error } = useFetchOmniAgentUrlQuery(true);
 
   const renderContent = () => {
     if (isLoading) {
@@ -42,10 +43,6 @@ export function AgentPanel({
     return <OmniEmbed url={data.url} allowMicrophone />;
   };
 
-  if (!isOpen) {
-    return null;
-  }
-
   return (
     <Box
       ref={panelRef}
@@ -56,7 +53,7 @@ export function AgentPanel({
       borderLeft="1px solid"
       borderColor="gray.200"
       bg="white"
-      display="flex"
+      display={isOpen ? 'flex' : 'none'}
       flexDirection="column"
       resize="horizontal"
       overflowX="auto"
