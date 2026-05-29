@@ -11,6 +11,9 @@ export function AnalyticsProvider({ children }: GenericProviderProps) {
           api_host: window.ENV_CONFIG.keys.posthogHost,
           debug: false,
           persistence: 'memory',
+          autocapture: false,
+          capture_pageview: false,
+          capture_pageleave: false,
         }}
       >
         {children}
